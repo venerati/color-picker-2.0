@@ -16,31 +16,42 @@ var canvas = document.getElementById('canvasPick'),
    //forces the function to wait for the image to load
    base_image.onload = function(){
    	//selects 2d object and injects image
-     context.drawImage(base_image, 0, 0);
+     context.drawImage(base_image, 1, 1);
    }
  }
 
+ // http://www.javascripter.net/faq/rgbtohex.htm
+	function rgbToHex(R,G,B) {return toHex(R)+toHex(G)+toHex(B)}
+	function toHex(n) {
+	  n = parseInt(n,10);
+	  if (isNaN(n)) return "00";
+	  n = Math.max(0,Math.min(n,255));
+	  return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
+	}
 
+// function handles onClick trigger. gathers grid data and then grabs color data.
 canvas.addEventListener('click', function(event) {
+    //stored location of your mouse click in relation to the 2d canvas grid
     var x = event.pageX;
         y = event.pageY;
-
+        //creates a var that stores the data pulled from X,Y grid using the value of your pointer
     var img_data = context.getImageData(x, y, 1, 1).data;
 	  var R = img_data[0];
 	  var G = img_data[1];
 	  var B = img_data[2];  var rgb = R + ',' + G + ',' + B;
+	  //there is a 4th variable A that I could use to fade the image in and out
 
-	  console.log(R);
+	  //variable for rbg to hex conversion
+	  var hex = rgbToHex(R,G,B);
+
+	// inject hex value into box
+ 	document.getElementById('hex').value = hex;
+ 	// inject rgb value into box
+ 	document.getElementById('rgb').value = rgb;
     });
 
-// sample the image for color on the pointer's location
 
-// inject hex value into box
 
-// inject rgb value into box
+
 
 // inject color into visual rep
-
-// http://www.javascripter.net/faq/rgbtohex.htm
-
-	// http://www.javascripter.net/faq/rgbtohex.htm
